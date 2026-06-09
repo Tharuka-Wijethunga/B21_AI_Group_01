@@ -1,0 +1,11 @@
+{
+  "adminCategory": {
+    "name": "Medicinal"
+  },
+  "adminPlant": {
+    "name": "Lavender Bush",
+    "price": "19.00",
+    "quantity": "55",
+    "category": "Desert"
+  }
+}

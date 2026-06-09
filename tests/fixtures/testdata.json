@@ -1,0 +1,32 @@
+{
+  "newCategory": {
+    "name": "Bromeliad"
+  },
+  "updatedCategory": {
+    "name": "Bromeliads"
+  },
+  "newPlant": {
+    "name": "Bird of Paradise",
+    "price": "55.00",
+    "quantity": "15",
+    "category": "Tropical"
+  },
+  "updatedPlant": {
+    "name": "Bird of Paradise",
+    "price": "60.00",
+    "quantity": "12"
+  },
+  "newSale": {
+    "plant": "Hibiscus",
+    "quantity": "2"
+  },
+  "searchTerm": {
+    "category": "Tropical",
+    "plant": "Aloe"
+  },
+  "expectedCounts": {
+    "minCategories": 7,
+    "minPlants": 10,
+    "minSales": 15
+  }
+}

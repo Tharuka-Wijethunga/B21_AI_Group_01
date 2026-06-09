@@ -1,0 +1,20 @@
+{
+  "default": {
+    "require": [
+      "tests/hooks/world.ts",
+      "tests/hooks/db.setup.ts",
+      "tests/hooks/hooks.ts",
+      "tests/step_definitions/**/*.steps.ts"
+    ],
+    "paths": ["tests/features/**/*.feature"],
+    "requireModule": ["ts-node/register"],
+    "format": [
+      "allure-cucumberjs/reporter",
+      "progress-bar"
+    ],
+    "formatOptions": {
+      "resultsDir": "allure-results"
+    },
+    "publishQuiet": true
+  }
+}
