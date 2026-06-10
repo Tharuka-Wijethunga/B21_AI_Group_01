@@ -1,0 +1,10 @@
+{
+  "_comment": "Test data for the Plants tests. Matches the seed: category 5 is Orchids (a sub-category), plant id 1 exists, Aloe Vera exists, Mini Fern has quantity below 5.",
+  "subCategoryId": 5,
+  "subCategoryName": "Orchids",
+  "lowStockPlant": "Mini Fern",
+  "existingPlantId": 1,
+  "searchHit": "Aloe",
+  "searchHitPlant": "Aloe Vera",
+  "searchMiss": "Zzzznoplant"
+}
