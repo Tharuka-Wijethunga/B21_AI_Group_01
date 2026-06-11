@@ -1,8 +1,8 @@
 import { When, Then } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
 import { PlaywrightWorld } from '../../hooks/world'
-import { PlantPage } from '../../../pages/PlantPage'
-import testdata from '../../../fixtures/testdata.json'
+import { PlantPage } from '../../pages/PlantPage'
+import testdata from '../../fixtures/testdata.json'
 
 When('I navigate to the plants page', async function (this: PlaywrightWorld) {
   const plantPage = new PlantPage(this.page)

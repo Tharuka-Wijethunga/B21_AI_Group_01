@@ -3,8 +3,9 @@ import { chromium, request } from 'playwright'
 import { PlaywrightWorld } from './world'
 import { ensureSeedData } from './db.setup'
 import * as dotenv from 'dotenv'
+import path from 'path'
 
-dotenv.config()
+dotenv.config({ path: path.resolve(process.cwd(), '.env') })
 
 BeforeAll(async function () {
   await ensureSeedData()

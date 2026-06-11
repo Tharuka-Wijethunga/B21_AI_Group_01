@@ -1,33 +1,30 @@
-@ui @user
+@ui @user @sales
 Feature: User - Sales UI
 
   Background:
     Given I am logged in as user
 
-  Scenario: User sees the sales list
+  @UI_USER_SALES_001
+  Scenario: Verify normal user can access sales page
     When I navigate to the sales page as user
-    Then I should see a list of sales
+    Then the sales page should load successfully
 
-  Scenario: User can add a new sale
+  @UI_USER_SALES_002
+  Scenario: Verify normal user can view sales records
     When I navigate to the sales page as user
-    And I click Add Sale
-    And I select the plant "Peace Lily"
-    And I fill in the sale quantity "1"
-    And I submit the form
-    Then I should see a success message
+    Then the sales records table should display correctly
 
-  Scenario: User sees sale total prices in the list
+  @UI_USER_SALES_003
+  Scenario: Verify normal user cannot see Sell button
     When I navigate to the sales page as user
-    Then I should see the sales list with quantities and total prices
+    Then the Add Sale button should not be visible
 
-  Scenario: User cannot delete a sale
+  @UI_USER_SALES_004
+  Scenario: Verify normal user cannot delete sales records
     When I navigate to the sales page as user
-    Then the delete buttons should not be visible
+    Then the sales delete buttons should not be visible
 
-  Scenario: User cannot add a sale with invalid quantity
-    When I navigate to the sales page as user
-    And I click Add Sale
-    And I select the plant "Haworthia"
-    And I fill in the sale quantity "0"
-    And I submit the form
-    Then I should see a validation error
+  @UI_USER_SALES_005
+  Scenario: Verify restricted sales functionality for normal users
+    When I attempt to access the admin sales page as user
+    Then I should see an access denied message

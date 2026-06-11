@@ -1,7 +1,7 @@
 import { When, Then } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
 import { PlaywrightWorld } from '../../hooks/world'
-import testdata from '../../../fixtures/testdata.json'
+import testdata from '../../fixtures/testdata.json'
 
 When('I send a GET request to {string}', async function (this: PlaywrightWorld, endpoint: string) {
   this.response = await this.apiRequest.get(endpoint, {

@@ -17,8 +17,20 @@
     "quantity": "12"
   },
   "newSale": {
+    "plantId": 6,
+    "quantity": 2,
     "plant": "Hibiscus",
-    "quantity": "2"
+    "quantityLabel": "2"
+  },
+  "deleteSale": {
+    "plant": "Areca Palm"
+  },
+  "invalidSale": {
+    "plant": "Haworthia"
+  },
+  "invalidSalePlantId": {
+    "plantId": 99999,
+    "quantity": 1
   },
   "searchTerm": {
     "category": "Tropical",

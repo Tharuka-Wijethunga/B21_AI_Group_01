@@ -1,6 +1,6 @@
 import { When, Then } from '@cucumber/cucumber'
 import { PlaywrightWorld } from '../../hooks/world'
-import { DashboardPage } from '../../../pages/DashboardPage'
+import { DashboardPage } from '../../pages/DashboardPage'
 
 When('I navigate to the dashboard', async function (this: PlaywrightWorld) {
   const dashboard = new DashboardPage(this.page)

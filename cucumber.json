@@ -14,7 +14,6 @@
     ],
     "formatOptions": {
       "resultsDir": "allure-results"
-    },
-    "publishQuiet": true
+    }
   }
 }

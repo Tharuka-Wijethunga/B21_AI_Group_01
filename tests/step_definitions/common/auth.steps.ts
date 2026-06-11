@@ -33,7 +33,7 @@ Given('I am logged in as admin', async function (this: PlaywrightWorld) {
   const body = await response.json()
   this.token = body.token
   await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
+    { name: 'token', value: this.token!, url: process.env.UI_BASE_URL! },
   ])
 })
 
@@ -47,6 +47,6 @@ Given('I am logged in as user', async function (this: PlaywrightWorld) {
   const body = await response.json()
   this.token = body.token
   await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
+    { name: 'token', value: this.token!, url: process.env.UI_BASE_URL! },
   ])
 })
