@@ -24,29 +24,23 @@ Given('I am authenticated as user', async function (this: PlaywrightWorld) {
 })
 
 Given('I am logged in as admin', async function (this: PlaywrightWorld) {
-  const response = await this.apiRequest.post('/api/auth/login', {
-    data: {
-      username: process.env.ADMIN_USER,
-      password: process.env.ADMIN_PASS,
+  await this.context.request.post('/ui/login', {
+    form: {
+      username: process.env.ADMIN_USER!,
+      password: process.env.ADMIN_PASS!,
     },
   })
-  const body = await response.json()
-  this.token = body.token
-  await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
-  ])
+})
+
+Given('I am not authenticated', async function (this: PlaywrightWorld) {
+  this.token = ''
 })
 
 Given('I am logged in as user', async function (this: PlaywrightWorld) {
-  const response = await this.apiRequest.post('/api/auth/login', {
-    data: {
-      username: process.env.TEST_USER,
-      password: process.env.TEST_PASS,
+  await this.context.request.post('/ui/login', {
+    form: {
+      username: process.env.TEST_USER!,
+      password: process.env.TEST_PASS!,
     },
   })
-  const body = await response.json()
-  this.token = body.token
-  await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
-  ])
 })

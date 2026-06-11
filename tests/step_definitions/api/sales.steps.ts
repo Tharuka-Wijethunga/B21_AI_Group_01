@@ -1,7 +1,7 @@
 import { When, Then } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
 import { PlaywrightWorld } from '../../hooks/world'
-import testdata from '../../../fixtures/testdata.json'
+import testdata from '../../fixtures/testdata.json'
 
 When('I send a POST request to {string} with quantity {int}',
   async function (this: PlaywrightWorld, endpoint: string, quantity: number) {

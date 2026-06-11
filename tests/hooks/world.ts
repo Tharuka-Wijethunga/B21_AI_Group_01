@@ -14,6 +14,8 @@ export class PlaywrightWorld extends World {
   apiRequest!: APIRequestContext
   response!: APIResponse
   token: string = ''
+  lastSearchTerm: string = ''
+  selectedParentLabel: string = ''
 
   constructor(options: IWorldOptions) {
     super(options)

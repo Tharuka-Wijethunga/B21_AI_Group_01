@@ -9,8 +9,8 @@
     "paths": ["tests/features/**/*.feature"],
     "requireModule": ["ts-node/register"],
     "format": [
-      "allure-cucumberjs/reporter",
-      "progress-bar"
+      "progress-bar",
+      ["allure-cucumberjs/reporter", "allure-results/report.txt"]
     ],
     "formatOptions": {
       "resultsDir": "allure-results"

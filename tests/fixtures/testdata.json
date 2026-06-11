@@ -1,6 +1,9 @@
 {
   "newCategory": {
-    "name": "Bromeliad"
+    "name": "Ferns"
+  },
+  "newCategoryUi": {
+    "name": "Mosses"
   },
   "updatedCategory": {
     "name": "Bromeliads"
@@ -21,7 +24,7 @@
     "quantity": "2"
   },
   "searchTerm": {
-    "category": "Tropical",
+    "category": "Bromeliad",
     "plant": "Aloe"
   },
   "expectedCounts": {

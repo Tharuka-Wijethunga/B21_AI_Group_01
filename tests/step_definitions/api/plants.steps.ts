@@ -1,7 +1,7 @@
 import { When, Then } from '@cucumber/cucumber'
 import { expect } from '@playwright/test'
 import { PlaywrightWorld } from '../../hooks/world'
-import testdata from '../../../fixtures/testdata.json'
+import testdata from '../../fixtures/testdata.json'
 
 When('I send a POST request to {string} with a negative price',
   async function (this: PlaywrightWorld, endpoint: string) {
