@@ -9,7 +9,7 @@ export class SalesPage {
   private readonly successToast: Locator
 
   constructor(private readonly page: Page) {
-    this.addBtn       = page.locator('[data-cy=add-sale-btn], button:has-text("Add Sale"), button:has-text("New Sale")')
+    this.addBtn       = page.locator('[data-cy=add-sale-btn], button:has-text("Add Sale"), button:has-text("New Sale"), a:has-text("Sell Plant"), a:has-text("New Sale"), a:has-text("Add Sale")')
     this.plantSelect  = page.locator('[data-cy=sale-plant-select], select[name="plantId"]')
     this.quantityInput = page.locator('[data-cy=sale-quantity-input], input[name="quantity"]')
     this.submitBtn    = page.locator('[data-cy=submit-btn], button[type="submit"]')
@@ -18,11 +18,11 @@ export class SalesPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/admin/sales')
+    await this.page.goto('/ui/sales')
   }
 
   async navigateAsUser(): Promise<void> {
-    await this.page.goto('/sales')
+    await this.page.goto('/ui/sales')
   }
 
   async clickAddSale(): Promise<void> {
@@ -43,7 +43,7 @@ export class SalesPage {
   }
 
   async expectListContains(text: string): Promise<void> {
-    await this.salesList.getByText(text).waitFor({ state: 'visible' })
+    await this.salesList.getByText(text).first().waitFor({ state: 'visible' })
   }
 
   async expectSuccessToast(): Promise<void> {

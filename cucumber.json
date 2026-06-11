@@ -6,11 +6,13 @@
       "tests/hooks/hooks.ts",
       "tests/step_definitions/**/*.steps.ts"
     ],
-    "paths": ["tests/features/**/*.feature"],
-    "requireModule": ["ts-node/register"],
+
+    "requireModule": [
+      "ts-node/register"
+    ],
     "format": [
-      "allure-cucumberjs/reporter",
-      "progress-bar"
+      "progress-bar",
+      "allure-cucumberjs/reporter:allure-dummy.txt"
     ],
     "formatOptions": {
       "resultsDir": "allure-results"

@@ -23,6 +23,8 @@ Given('I am authenticated as user', async function (this: PlaywrightWorld) {
   this.token = body.token
 })
 
+import { LoginPage } from '../../pages/LoginPage'
+
 Given('I am logged in as admin', async function (this: PlaywrightWorld) {
   const response = await this.apiRequest.post('/api/auth/login', {
     data: {
@@ -32,9 +34,9 @@ Given('I am logged in as admin', async function (this: PlaywrightWorld) {
   })
   const body = await response.json()
   this.token = body.token
-  await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
-  ])
+  
+  const loginPage = new LoginPage(this.page)
+  await loginPage.login(process.env.ADMIN_USER!, process.env.ADMIN_PASS!)
 })
 
 Given('I am logged in as user', async function (this: PlaywrightWorld) {
@@ -46,7 +48,7 @@ Given('I am logged in as user', async function (this: PlaywrightWorld) {
   })
   const body = await response.json()
   this.token = body.token
-  await this.context.addCookies([
-    { name: 'token', value: this.token, url: process.env.UI_BASE_URL! },
-  ])
+  
+  const loginPage = new LoginPage(this.page)
+  await loginPage.login(process.env.TEST_USER!, process.env.TEST_PASS!)
 })

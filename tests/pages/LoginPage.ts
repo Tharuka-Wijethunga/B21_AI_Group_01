@@ -14,7 +14,7 @@ export class LoginPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/login')
+    await this.page.goto('/ui/login')
   }
 
   async enterEmail(email: string): Promise<void> {

@@ -8,7 +8,7 @@ export class DashboardPage {
   private readonly totalSalesCard: Locator
 
   constructor(private readonly page: Page) {
-    this.statsWidget         = page.locator('[data-cy=stats-widget], .stats-widget, .dashboard-stats')
+    this.statsWidget         = page.locator('[data-cy=stats-widget], .dashboard-card')
     this.navMenu             = page.locator('[data-cy=nav-menu], nav, .sidebar')
     this.totalPlantsCard     = page.locator('[data-cy=total-plants], .total-plants')
     this.totalCategoriesCard = page.locator('[data-cy=total-categories], .total-categories')
@@ -16,7 +16,7 @@ export class DashboardPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/dashboard')
+    await this.page.goto('/ui/dashboard')
   }
 
   async expectStatsVisible(): Promise<void> {

@@ -1,7 +1,7 @@
 import { Page, Locator } from 'playwright'
 
 export class CategoryPage {
-  private readonly addBtn: Locator
+  public readonly addBtn: Locator
   private readonly nameInput: Locator
   private readonly parentSelect: Locator
   private readonly submitBtn: Locator
@@ -10,7 +10,7 @@ export class CategoryPage {
   private readonly errorToast: Locator
 
   constructor(private readonly page: Page) {
-    this.addBtn      = page.locator('[data-cy=add-category-btn], button:has-text("Add Category")')
+    this.addBtn      = page.locator('[data-cy=add-category-btn], a:has-text("Add A Category"), a:has-text("Add Category"), button:has-text("Add Category")')
     this.nameInput   = page.locator('[data-cy=category-name-input], input[name="name"]')
     this.parentSelect = page.locator('[data-cy=parent-category-select], select[name="parentId"]')
     this.submitBtn   = page.locator('[data-cy=submit-btn], button[type="submit"]')
@@ -20,7 +20,7 @@ export class CategoryPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/admin/categories')
+    await this.page.goto('/ui/categories')
   }
 
   async clickAddCategory(): Promise<void> {
@@ -41,7 +41,7 @@ export class CategoryPage {
   }
 
   async expectListContains(text: string): Promise<void> {
-    await this.categoryList.getByText(text).waitFor({ state: 'visible' })
+    await this.categoryList.getByText(text).first().waitFor({ state: 'visible' })
   }
 
   async expectListNotContains(text: string): Promise<void> {
@@ -51,17 +51,17 @@ export class CategoryPage {
   }
 
   async clickEditFor(name: string): Promise<void> {
-    const row = this.page.locator('tr', { hasText: name })
-    await row.locator('[data-cy=edit-btn], button:has-text("Edit")').click()
+    const row = this.page.locator('tr', { hasText: name }).first()
+    await row.locator('[data-cy=edit-btn], a:has-text("Edit"), button:has-text("Edit"), a[href*="edit"], [title="Edit"]').click()
   }
 
   async clickDeleteFor(name: string): Promise<void> {
-    const row = this.page.locator('tr', { hasText: name })
-    await row.locator('[data-cy=delete-btn], button:has-text("Delete")').click()
+    const row = this.page.locator('tr', { hasText: name }).first()
+    await row.locator('[data-cy=delete-btn], a:has-text("Delete"), button:has-text("Delete"), [title="Delete"]').click()
   }
 
   async confirmDelete(): Promise<void> {
-    await this.page.locator('[data-cy=confirm-delete-btn], button:has-text("Confirm"), button:has-text("Yes")').click()
+    await this.page.locator('#deleteModal button[type="submit"], .modal-footer button:has-text("Delete"), [data-cy=confirm-delete-btn], button:has-text("Confirm"), button:has-text("Yes")').click()
   }
 
   async expectSuccessToast(): Promise<void> {

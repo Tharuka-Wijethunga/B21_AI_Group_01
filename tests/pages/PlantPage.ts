@@ -1,7 +1,7 @@
 import { Page, Locator } from 'playwright'
 
 export class PlantPage {
-  private readonly addBtn: Locator
+  public readonly addBtn: Locator
   private readonly nameInput: Locator
   private readonly priceInput: Locator
   private readonly quantityInput: Locator
@@ -11,7 +11,7 @@ export class PlantPage {
   private readonly successToast: Locator
 
   constructor(private readonly page: Page) {
-    this.addBtn        = page.locator('[data-cy=add-plant-btn], button:has-text("Add Plant")')
+    this.addBtn        = page.locator('[data-cy=add-plant-btn], a:has-text("Add a Plant"), a:has-text("Add Plant"), button:has-text("Add Plant")')
     this.nameInput     = page.locator('[data-cy=plant-name-input], input[name="name"]')
     this.priceInput    = page.locator('[data-cy=plant-price-input], input[name="price"]')
     this.quantityInput = page.locator('[data-cy=plant-quantity-input], input[name="quantity"]')
@@ -22,7 +22,7 @@ export class PlantPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/admin/plants')
+    await this.page.goto('/ui/plants')
   }
 
   async clickAddPlant(): Promise<void> {
@@ -53,17 +53,17 @@ export class PlantPage {
   }
 
   async expectListContains(text: string): Promise<void> {
-    await this.plantList.getByText(text).waitFor({ state: 'visible' })
+    await this.plantList.getByText(text).first().waitFor({ state: 'visible' })
   }
 
   async clickEditFor(name: string): Promise<void> {
-    const row = this.page.locator('tr', { hasText: name })
-    await row.locator('[data-cy=edit-btn], button:has-text("Edit")').click()
+    const row = this.page.locator('tr', { hasText: name }).first()
+    await row.locator('[data-cy=edit-btn], a:has-text("Edit"), button:has-text("Edit"), a[href*="edit"], [title="Edit"]').click()
   }
 
   async clickDeleteFor(name: string): Promise<void> {
-    const row = this.page.locator('tr', { hasText: name })
-    await row.locator('[data-cy=delete-btn], button:has-text("Delete")').click()
+    const row = this.page.locator('tr', { hasText: name }).first()
+    await row.locator('[data-cy=delete-btn], a:has-text("Delete"), button:has-text("Delete"), [title="Delete"]').click()
   }
 
   async confirmDelete(): Promise<void> {
