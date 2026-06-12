@@ -53,6 +53,11 @@ When('I open the Plants page', async function (this: PlaywrightWorld) {
   await new PlantPage(this.page).navigate()
 })
 
+// alias used by the access-control (login) feature
+When('I navigate to the plants page', async function (this: PlaywrightWorld) {
+  await new PlantPage(this.page).navigate()
+})
+
 When('I open the Add Plant page', async function (this: PlaywrightWorld) {
   await new PlantPage(this.page).openAddForm()
 })

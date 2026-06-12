@@ -16,6 +16,7 @@ const CATEGORIES = [
   { name: 'Orchids',     parent_id: 1 },
   { name: 'Bromeliad',   parent_id: 1 },
   { name: 'Succulent',   parent_id: 2 },
+  { name: 'Medicinal',   parent_id: null },
 ]
 
 const PLANTS = [

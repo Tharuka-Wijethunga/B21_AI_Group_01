@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "cucumber-js",
-    "test:api": "cucumber-js --paths \"tests/features/api/**/*.feature\"",
-    "test:ui": "cucumber-js --paths \"tests/features/ui/**/*.feature\"",
+    "test": "cucumber-js \"tests/features/**/*.feature\"",
+    "test:api": "cucumber-js \"tests/features/api/**/*.feature\"",
+    "test:ui": "cucumber-js \"tests/features/ui/**/*.feature\"",
     "test:admin": "cucumber-js --tags \"@admin\"",
     "test:user": "cucumber-js --tags \"@user\"",
     "test:sales": "cucumber-js tests/features/api/admin/sales.feature tests/features/api/user/sales.feature tests/features/ui/admin/sales.feature tests/features/ui/user/sales.feature",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@cucumber/cucumber": "^10.8.0",
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.60.0",
     "@types/node": "^20.14.0",
     "allure-commandline": "^2.42.1",
     "allure-cucumberjs": "^3.10.0",

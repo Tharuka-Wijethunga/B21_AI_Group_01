@@ -54,6 +54,8 @@ INSERT INTO categories (name, parent_id) VALUES ('Palms', 1);          -- id 4  
 INSERT INTO categories (name, parent_id) VALUES ('Orchids', 1);        -- id 5  (child of Tropical)
 INSERT INTO categories (name, parent_id) VALUES ('Bromeliad', 1);      -- id 6  (child of Tropical)
 INSERT INTO categories (name, parent_id) VALUES ('Succulent', 2);      -- id 7  (child of Desert)
+INSERT INTO categories (name, parent_id) VALUES ('Medicinal', NULL);    -- id 8
+
 
 -- ─── Plants ───────────────────────────────────────────────────────────────────
 

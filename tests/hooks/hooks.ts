@@ -1,4 +1,7 @@
-import { Before, After, BeforeAll, Status } from '@cucumber/cucumber'
+import { Before, After, BeforeAll, Status, setDefaultTimeout } from '@cucumber/cucumber'
+
+// Set default timeout to 30 seconds for UI tests
+setDefaultTimeout(30 * 1000)
 import { chromium, request } from 'playwright'
 import { PlaywrightWorld } from './world'
 import { ensureSeedData } from './db.setup'

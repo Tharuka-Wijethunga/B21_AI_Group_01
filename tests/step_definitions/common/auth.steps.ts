@@ -23,18 +23,32 @@ Given('I am authenticated as user', async function (this: PlaywrightWorld) {
   this.token = body.token
 })
 
+import { LoginPage } from '../../pages/LoginPage'
+
 Given('I am logged in as admin', async function (this: PlaywrightWorld) {
-  await this.page.goto('/ui/login')
-  await this.page.fill('input[name="username"]', process.env.ADMIN_USER!)
-  await this.page.fill('input[name="password"]', process.env.ADMIN_PASS!)
-  await this.page.click('button[type="submit"]')
-  await this.page.waitForLoadState('networkidle')
+  const response = await this.apiRequest.post('/api/auth/login', {
+    data: {
+      username: process.env.ADMIN_USER,
+      password: process.env.ADMIN_PASS,
+    },
+  })
+  const body = await response.json()
+  this.token = body.token
+  
+  const loginPage = new LoginPage(this.page)
+  await loginPage.login(process.env.ADMIN_USER!, process.env.ADMIN_PASS!)
 })
 
 Given('I am logged in as user', async function (this: PlaywrightWorld) {
-  await this.page.goto('/ui/login')
-  await this.page.fill('input[name="username"]', process.env.TEST_USER!)
-  await this.page.fill('input[name="password"]', process.env.TEST_PASS!)
-  await this.page.click('button[type="submit"]')
-  await this.page.waitForLoadState('networkidle')
+  const response = await this.apiRequest.post('/api/auth/login', {
+    data: {
+      username: process.env.TEST_USER,
+      password: process.env.TEST_PASS,
+    },
+  })
+  const body = await response.json()
+  this.token = body.token
+  
+  const loginPage = new LoginPage(this.page)
+  await loginPage.login(process.env.TEST_USER!, process.env.TEST_PASS!)
 })

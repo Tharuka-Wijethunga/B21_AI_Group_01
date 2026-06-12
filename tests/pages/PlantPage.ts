@@ -112,6 +112,11 @@ export class PlantPage {
     return this.addPlantLink
   }
 
+  // public alias for the access-control (login) tests
+  get addBtn(): Locator {
+    return this.addPlantLink
+  }
+
   getEditButtons(): Locator {
     return this.page.locator('tbody a[title="Edit"]')
   }

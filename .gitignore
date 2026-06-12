@@ -4,3 +4,6 @@ allure-results/
 allure-report/
 .env
 *.log
+
+.DS_Store
+allure-dummy.txt
