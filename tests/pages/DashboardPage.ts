@@ -1,4 +1,6 @@
 import { Page, Locator } from 'playwright'
+import { expect } from '@playwright/test'
+
 
 export class DashboardPage {
   private readonly statsWidget: Locator
@@ -37,5 +39,15 @@ export class DashboardPage {
 
   async expectTotalSalesVisible(): Promise<void> {
     await this.totalSalesCard.waitFor({ state: 'visible' })
+  }
+
+  async expectNavTabActive(tabLabel: string): Promise<void> {
+    const activeLink = this.page.locator(
+      'nav a.active, .sidebar a.active, [data-cy=nav-menu] a.active, ' +
+      'nav li.active a, .navbar-nav .active a, .nav-link.active'
+    ).filter({ hasText: new RegExp(tabLabel, 'i') })
+
+    await activeLink.first().waitFor({ state: 'visible', timeout: 8000 })
+    await expect(activeLink.first()).toBeVisible()
   }
 }

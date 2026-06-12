@@ -42,11 +42,14 @@ Feature: User - Login UI
     Then the Add Category button should not be visible
 
   # UI_USER_DASHBOARD_001
-  Scenario: User is redirected to Dashboard after successful login
-    Given I am on the login page
-    When I enter the username "testuser"
-    And I enter the password "test123"
-    And I click the Login button
-    Then I should be redirected to the dashboard
-    And I should see the summary statistics
-    And I should see the navigation menu
+  Scenario Outline: Navigation menu highlights the active tab for User
+    Given I am logged in as user
+    When I navigate to the "<page>" page
+    Then the "<tab>" navigation tab should be highlighted as active
+
+    Examples:
+      | page       | tab        |
+      | dashboard  | Dashboard  |
+      | categories | Categories |
+      | plants     | Plants     |
+      | sales      | Sales      |

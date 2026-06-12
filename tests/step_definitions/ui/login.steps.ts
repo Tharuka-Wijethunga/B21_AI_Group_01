@@ -106,3 +106,27 @@ Then('I should see the logout success message', async function (this: Playwright
   await successLocator.waitFor({ state: 'visible' })
   await expect(successLocator).toContainText(/logged out|success/i)
 })
+
+// UI_USER_DASHBOARD_001 — navigate to a named page via its label
+When('I navigate to the {string} page',
+  async function (this: PlaywrightWorld, page: string) {
+    const routes: Record<string, string> = {
+      dashboard:  '/ui/dashboard',
+      categories: '/ui/categories',
+      plants:     '/ui/plants',
+      sales:      '/ui/sales',
+    }
+    const url = routes[page.toLowerCase()]
+    if (!url) throw new Error(`Unknown page: "${page}"`)
+    await this.page.goto(url)
+    await this.page.waitForLoadState('networkidle')
+  }
+)
+
+// UI_USER_DASHBOARD_001 — assert the named tab is highlighted active
+Then('the {string} navigation tab should be highlighted as active',
+  async function (this: PlaywrightWorld, tab: string) {
+    const dashboard = new DashboardPage(this.page)
+    await dashboard.expectNavTabActive(tab)
+  }
+)
