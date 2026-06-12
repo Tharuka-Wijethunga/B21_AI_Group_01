@@ -1,8 +1,9 @@
 import * as mysql2 from 'mysql2/promise'
 import type { Connection } from 'mysql2/promise'
 import * as dotenv from 'dotenv'
+import path from 'path'
 
-dotenv.config()
+dotenv.config({ path: path.resolve(process.cwd(), '.env') })
 
 // ─── Seed payloads ────────────────────────────────────────────────────────────
 // Must stay in sync with seed.sql so both paths produce identical state.
@@ -92,6 +93,18 @@ async function seedSales(conn: Connection): Promise<void> {
  * Skips seeding if data already exists to avoid duplicating records across runs.
  */
 export async function ensureSeedData(): Promise<void> {
+  if (process.env.SKIP_DB_SEED === 'true') {
+    console.log('[db.setup] SKIP_DB_SEED=true — skipping database seed check.')
+    return
+  }
+
+  if (!process.env.DB_PASSWORD) {
+    throw new Error(
+      '[db.setup] DB_PASSWORD is not set. Copy .env.example to .env and set DB_PASSWORD ' +
+      '(use the same value as spring.datasource.password in QA Training App/application.properties).'
+    )
+  }
+
   let conn: Connection | null = null
 
   try {
