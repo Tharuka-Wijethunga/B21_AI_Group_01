@@ -23,6 +23,7 @@ const CREATED_PLANT_NAMES = [
   'Disposable Plant',
   'Rose Bush',
   'TestPlant',
+  'Category Move',
 ]
 
 After({ tags: '@plants' }, async function (this: PlaywrightWorld) {
@@ -192,3 +193,11 @@ Then(
     expect(body.details?.[field]).toBe(message)
   }
 )
+
+// checks the plant's category was actually changed by the update.
+// this is expected to fail: the app accepts the update (200) but ignores the
+// new category, see bug report API_BUG_PLANT_001.
+Then('the updated plant category should be {int}', async function (this: PlaywrightWorld, expectedCategoryId: number) {
+  const body = await this.response.json()
+  expect(body.category?.id).toBe(expectedCategoryId)
+})

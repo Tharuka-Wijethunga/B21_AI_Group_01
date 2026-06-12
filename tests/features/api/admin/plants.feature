@@ -40,3 +40,12 @@ Feature: Admin - Plants API
     When I create a plant "TestPlant" with price -10 and quantity 5 under category 5
     Then the response status should be 400
     And the response error message for "price" should be "Price must be greater than 0"
+
+  # This scenario is expected to FAIL - it proves bug API_BUG_PLANT_001.
+  # The update returns 200 but the category is silently not changed.
+  @API_ADMIN_PLANT_006 @bug_API_BUG_PLANT_001
+  Scenario: Admin can move a plant to a different sub-category
+    Given I create a plant "Category Move" with price 50.00 and quantity 5 under category 5
+    When I update the created plant with name "Category Move", price 50.00, quantity 5 and category 6
+    Then the response status should be 200
+    And the updated plant category should be 6
