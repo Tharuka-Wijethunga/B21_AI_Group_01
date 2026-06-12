@@ -27,6 +27,10 @@ Feature: Admin - Sales Management UI
   @UI_ADMIN_SALES_004
   Scenario: Verify admin can delete sales record
     When I navigate to the sales page
+    And I click Add Sale
+    And I select the plant from fixture "deleteSale"
+    And I fill in the sale quantity from fixture "deleteSale"
+    And I submit the sale form
     And I click delete for the sale with plant from fixture "deleteSale"
     And I confirm the sale deletion
     Then the sale should be removed from the sales records

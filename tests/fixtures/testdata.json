@@ -23,7 +23,10 @@
     "quantityLabel": "2"
   },
   "deleteSale": {
-    "plant": "Areca Palm"
+    "plantId": 6,
+    "plant": "Hibiscus",
+    "quantity": 1,
+    "quantityLabel": "1"
   },
   "invalidSale": {
     "plant": "Haworthia"

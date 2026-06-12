@@ -12,16 +12,18 @@ Feature: User - Sales API
   @API_USER_SALES_002
   Scenario: Verify normal user cannot create sale
     Given I am authenticated as user
-    When I send a POST request to "/api/sales" with sales data from fixture "newSale"
+    When I attempt to sell the plant from fixture "newSale" as the current user
     Then the response status should be 403
     And the response should contain an error message
 
   @API_USER_SALES_003
   Scenario: Verify normal user cannot delete sales records
-    Given I am authenticated as user
-    When I send a DELETE request to "/api/sales/1"
+    Given I create a temporary sale as admin from fixture "newSale"
+    And I switch to a regular user token
+    When I attempt to delete that sale as the current user
     Then the response status should be 403
     And the response should contain an error message
+    And I clean up the temporary sale as admin
 
   @API_USER_SALES_004
   Scenario: Verify unauthorized user cannot access sales API
@@ -30,7 +32,9 @@ Feature: User - Sales API
 
   @API_USER_SALES_005
   Scenario: Verify restricted action error message
-    Given I am authenticated as user
-    When I send a POST request to "/api/sales" with quantity 1
+    Given I create a temporary sale as admin from fixture "newSale"
+    And I switch to a regular user token
+    When I attempt to delete that sale as the current user
     Then the response status should be 403
     And the response should contain an error message
+    And I clean up the temporary sale as admin

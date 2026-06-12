@@ -70,7 +70,7 @@ When('I click delete for the sale with plant from fixture {string}',
   async function (this: PlaywrightWorld, fixtureKey: string) {
     const plant = (testdata as Record<string, any>)[fixtureKey].plant
     const salesPage = new SalesPage(this.page)
-    await salesPage.clickDeleteForPlant(plant)
+    this.deletedSaleFormAction = await salesPage.clickDeleteForPlant(plant)
   }
 )
 
@@ -82,7 +82,7 @@ When('I confirm the sale deletion', async function (this: PlaywrightWorld) {
 Then('the sale should be removed from the sales records',
   async function (this: PlaywrightWorld) {
     const salesPage = new SalesPage(this.page)
-    await salesPage.expectSaleRemoved(testdata.deleteSale.plant)
+    await salesPage.expectSaleFormRemoved(this.deletedSaleFormAction ?? '')
   }
 )
 
@@ -107,7 +107,7 @@ When('I attempt to access the admin sales page as user',
 
 Then('the Add Sale button should not be visible', async function (this: PlaywrightWorld) {
   const count = await this.page
-    .locator('[data-cy=add-sale-btn], button:has-text("Add Sale"), button:has-text("New Sale"), button:has-text("Sell")')
+    .locator('[data-cy=add-sale-btn], a:has-text("Sell Plant"), a[href="/ui/sales/new"]')
     .count()
   expect(count).toBe(0)
 })
