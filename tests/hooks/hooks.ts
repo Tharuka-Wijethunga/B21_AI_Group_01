@@ -1,7 +1,7 @@
 import { Before, After, BeforeAll, Status, setDefaultTimeout } from '@cucumber/cucumber'
 import { chromium, request } from 'playwright'
 import { PlaywrightWorld } from './world'
-import { ensureSeedData } from './db.setup'
+import { resetAndSeed } from './db.setup'
 import * as dotenv from 'dotenv'
 import path from 'path'
 
@@ -9,8 +9,10 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') })
 
 setDefaultTimeout(30 * 1000)
 
+// Reset the database to a known seed before every run so tests are repeatable
+// (no leftover changes from a previous run breaking the next one).
 BeforeAll(async function () {
-  await ensureSeedData()
+  await resetAndSeed()
 })
 
 Before(async function (this: PlaywrightWorld) {
