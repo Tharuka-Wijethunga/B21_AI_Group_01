@@ -1,30 +1,51 @@
-@api @admin
+@api @admin @plants
 Feature: Admin - Plants API
+  As an Admin, I can fully manage plants through the REST API.
+  Test cases authored by 215531F.
 
   Background:
     Given I am authenticated as admin
 
+  @API_ADMIN_PLANT_001
   Scenario: Admin can retrieve all plants
-    When I send a GET request to "/api/plants"
+    When I request the list of plants
     Then the response status should be 200
     And the response should return a list
     And the response list should not be empty
+    And each plant in the list should have id, name, price, quantity and category
 
-  Scenario: Admin can create a new plant
-    When I send a POST request to "/api/plants" with body from fixture "newPlant"
+  @API_ADMIN_PLANT_002
+  Scenario: Admin can create a plant under a sub-category
+    When I create a plant "Orchid" with price 250.00 and quantity 10 under category 5
     Then the response status should be 201
-    And the response body should contain the created plant name
+    And the created plant should have name "Orchid", price 250.00 and quantity 10
 
-  Scenario: Admin can retrieve a plant by ID
-    When I send a GET request to "/api/plants/1"
+  @API_ADMIN_PLANT_003
+  Scenario: Admin can update an existing plant
+    Given I create a plant "Editable Plant" with price 100.00 and quantity 5 under category 5
+    When I update the created plant with name "Orchid Updated", price 300.00, quantity 8 and category 5
     Then the response status should be 200
-    And the response body should have an "id" field
+    And the updated plant should have name "Orchid Updated", price 300.00 and quantity 8
 
-  Scenario: Admin can update a plant price
-    When I send a PUT request to "/api/plants/1" with body from fixture "updatedPlant"
-    Then the response status should be 200
-    And the response body should contain the updated plant price
+  @API_ADMIN_PLANT_004
+  Scenario: Admin can delete a plant
+    Given I create a plant "Disposable Plant" with price 10.00 and quantity 1 under category 5
+    When I delete the created plant
+    Then the response status should be 204
+    When I request the created plant by id
+    Then the response status should be 404
 
+  @API_ADMIN_PLANT_005
   Scenario: Admin cannot create a plant with a negative price
-    When I send a POST request to "/api/plants" with a negative price
+    When I create a plant "TestPlant" with price -10 and quantity 5 under category 5
     Then the response status should be 400
+    And the response error message for "price" should be "Price must be greater than 0"
+
+  # This scenario is expected to FAIL - it proves bug API_BUG_PLANT_001.
+  # The update returns 200 but the category is silently not changed.
+  @API_ADMIN_PLANT_006 @bug_API_BUG_PLANT_001
+  Scenario: Admin can move a plant to a different sub-category
+    Given I create a plant "Category Move" with price 50.00 and quantity 5 under category 5
+    When I update the created plant with name "Category Move", price 50.00, quantity 5 and category 6
+    Then the response status should be 200
+    And the updated plant category should be 6

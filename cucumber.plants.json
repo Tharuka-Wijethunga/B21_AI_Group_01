@@ -1,0 +1,18 @@
+{
+  "_comment": "Cucumber profile for running just the Plants tests. Loads the Plants steps plus the common steps and hooks. Run: npx cucumber-js --config cucumber.plants.json",
+  "default": {
+    "requireModule": ["ts-node/register"],
+    "require": [
+      "tests/hooks/world.ts",
+      "tests/hooks/db.setup.ts",
+      "tests/hooks/hooks.ts",
+      "tests/step_definitions/common/auth.steps.ts",
+      "tests/step_definitions/common/shared.steps.ts",
+      "tests/step_definitions/api/plants.steps.ts",
+      "tests/step_definitions/ui/plants.steps.ts"
+    ],
+    "paths": ["tests/features/**/plants.feature"],
+    "format": ["allure-cucumberjs/reporter"],
+    "formatOptions": { "resultsDir": "allure-results" }
+  }
+}
