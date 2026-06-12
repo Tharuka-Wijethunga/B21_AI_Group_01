@@ -13,11 +13,15 @@ export class PlaywrightWorld extends World {
   page!: Page
   apiRequest!: APIRequestContext
   response!: APIResponse
-  token?: string;
-  userToken?: string;
-  deletedSaleFormAction?: string;
-  tempSaleId?: number;
-  lastCreatedSaleId?: number;
+  token: string = ''
+  userToken?: string
+  deletedSaleFormAction?: string
+  tempSaleId?: number
+  lastCreatedSaleId?: number
+  lastSearchTerm: string = ''
+  selectedParentLabel: string = ''
+  lastCreatedCategoryId: number = 0
+  tempCategoryId: number = 0
 
   constructor(options: IWorldOptions) {
     super(options)

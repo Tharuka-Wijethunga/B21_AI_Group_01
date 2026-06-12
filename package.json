@@ -8,6 +8,7 @@
     "test:ui": "cucumber-js \"tests/features/ui/**/*.feature\"",
     "test:admin": "cucumber-js --tags \"@admin\"",
     "test:user": "cucumber-js --tags \"@user\"",
+    "test:categories": "cucumber-js --tags \"@categories\"",
     "test:sales": "cucumber-js tests/features/api/admin/sales.feature tests/features/api/user/sales.feature tests/features/ui/admin/sales.feature tests/features/ui/user/sales.feature",
     "db:reset": "ts-node tests/hooks/reset-db.ts",
     "allure:generate": "allure generate allure-results --clean -o allure-report",

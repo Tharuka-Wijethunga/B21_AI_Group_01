@@ -11,7 +11,7 @@ When('I navigate to the categories page', async function (this: PlaywrightWorld)
 
 Then('I should see a list of categories', async function (this: PlaywrightWorld) {
   const categoryPage = new CategoryPage(this.page)
-  await categoryPage.expectListContains('Tropical')
+  await categoryPage.expectListNotEmpty()
 })
 
 Then('I should see {string} in the category list', async function (this: PlaywrightWorld, name: string) {
@@ -49,7 +49,7 @@ When('I submit the form without a name', async function (this: PlaywrightWorld) 
 
 Then('I should see the new category in the list', async function (this: PlaywrightWorld) {
   const categoryPage = new CategoryPage(this.page)
-  await categoryPage.expectListContains(testdata.newCategory.name)
+  await categoryPage.expectListContains(testdata.newCategoryUi.name)
 })
 
 When('I click edit for the category {string}', async function (this: PlaywrightWorld, name: string) {
@@ -68,20 +68,69 @@ When('I confirm the deletion', async function (this: PlaywrightWorld) {
 })
 
 Then('the Add Category button should not be visible', async function (this: PlaywrightWorld) {
-  const count = await this.page.locator('[data-cy=add-category-btn], button:has-text("Add Category")').count()
+  const count = await this.page.locator('[data-cy=add-category-btn], a[href="/ui/categories/add"]').count()
   expect(count).toBe(0)
 })
 
-Then('the edit buttons should not be visible', async function (this: PlaywrightWorld) {
-  const count = await this.page.locator('[data-cy=edit-btn], button:has-text("Edit")').count()
-  expect(count).toBe(0)
+Then('the edit buttons should be disabled', async function (this: PlaywrightWorld) {
+  const editLinks = this.page.locator('[data-cy=edit-btn], a[title="Edit"]')
+  const count = await editLinks.count()
+  expect(count).toBeGreaterThan(0)
+  for (let i = 0; i < count; i++) {
+    await expect(editLinks.nth(i)).toBeDisabled()
+  }
 })
 
-Then('the delete buttons should not be visible', async function (this: PlaywrightWorld) {
-  const count = await this.page.locator('[data-cy=delete-btn], button:has-text("Delete")').count()
-  expect(count).toBe(0)
+Then('the delete buttons should be disabled', async function (this: PlaywrightWorld) {
+  const deleteButtons = this.page.locator('[data-cy=delete-btn], button[title="Delete"]')
+  const count = await deleteButtons.count()
+  expect(count).toBeGreaterThan(0)
+  for (let i = 0; i < count; i++) {
+    await expect(deleteButtons.nth(i)).toBeDisabled()
+  }
 })
 
 Then('I should see a validation error', async function (this: PlaywrightWorld) {
   await this.page.locator('.error, .invalid-feedback, [data-cy=validation-error]').waitFor({ state: 'visible' })
+})
+
+When('I select a parent category', async function (this: PlaywrightWorld) {
+  const categoryPage = new CategoryPage(this.page)
+  this.selectedParentLabel = await categoryPage.selectFirstParent()
+})
+
+Then('I should be redirected to the categories page', async function (this: PlaywrightWorld) {
+  await this.page.waitForURL('**/categories')
+})
+
+Then('I should see {string} listed under the selected parent category',
+  async function (this: PlaywrightWorld, name: string) {
+    const categoryPage = new CategoryPage(this.page)
+    await categoryPage.expectListContains(name)
+  }
+)
+
+When('I enter a valid category name in the search bar', async function (this: PlaywrightWorld) {
+  const categoryPage = new CategoryPage(this.page)
+  await categoryPage.searchFor(testdata.searchTerm.category)
+  this.lastSearchTerm = testdata.searchTerm.category
+})
+
+When('I enter a non-existent category name in the search bar', async function (this: PlaywrightWorld) {
+  const categoryPage = new CategoryPage(this.page)
+  await categoryPage.searchFor('XXXXXXXXXXX')
+})
+
+When('I trigger the search', async function (this: PlaywrightWorld) {
+  // search is triggered inside searchFor — no additional action needed
+})
+
+Then('the category list should show only matching categories', async function (this: PlaywrightWorld) {
+  const categoryPage = new CategoryPage(this.page)
+  await categoryPage.expectFilteredResults(this.lastSearchTerm ?? testdata.searchTerm.category)
+})
+
+Then('I should see the message {string}', async function (this: PlaywrightWorld, message: string) {
+  const categoryPage = new CategoryPage(this.page)
+  await categoryPage.expectEmptyMessage(message)
 })

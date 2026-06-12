@@ -1,4 +1,4 @@
-@api @user
+@api @user @categories
 Feature: User - Categories API
 
   Background:
@@ -19,6 +19,7 @@ Feature: User - Categories API
     When I send a POST request to "/api/categories" with body from fixture "newCategory"
     Then the response status should be 403
 
+  @extra
   Scenario: User cannot update a category
     When I send a PUT request to "/api/categories/1" with body from fixture "updatedCategory"
     Then the response status should be 403
@@ -26,3 +27,8 @@ Feature: User - Categories API
   Scenario: User cannot delete a category
     When I send a DELETE request to "/api/categories/1"
     Then the response status should be 403
+
+  Scenario: Unauthenticated request to categories API returns 401
+    Given I am not authenticated
+    When I send a GET request to "/api/categories"
+    Then the response status should be 401

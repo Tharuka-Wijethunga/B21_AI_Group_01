@@ -1,7 +1,4 @@
 import { Before, After, BeforeAll, Status, setDefaultTimeout } from '@cucumber/cucumber'
-
-// Set default timeout to 30 seconds for UI tests
-setDefaultTimeout(30 * 1000)
 import { chromium, request } from 'playwright'
 import { PlaywrightWorld } from './world'
 import { ensureSeedData } from './db.setup'
@@ -9,6 +6,8 @@ import * as dotenv from 'dotenv'
 import path from 'path'
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') })
+
+setDefaultTimeout(30 * 1000)
 
 BeforeAll(async function () {
   await ensureSeedData()
