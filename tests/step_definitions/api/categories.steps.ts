@@ -48,6 +48,15 @@ When('I send a POST request to {string} with an empty name',
   }
 )
 
+When('I send a POST request to {string} with name {string}',
+  async function (this: PlaywrightWorld, endpoint: string, name: string) {
+    this.response = await this.apiRequest.post(endpoint, {
+      headers: { Authorization: `Bearer ${this.token}` },
+      data: { name },
+    })
+  }
+)
+
 Then('the response body should contain the created category name',
   async function (this: PlaywrightWorld) {
     const body = await this.response.json()

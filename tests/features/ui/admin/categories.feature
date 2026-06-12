@@ -29,8 +29,8 @@ Feature: Admin - Category Management UI
   @extra
   Scenario: Admin can edit an existing category
     When I navigate to the categories page
-    And I click edit for the category "Tropical"
-    And I fill in the category name with "Tropicals"
+    And I click edit for the category "Cacti"
+    And I fill in the category name with "Cactus"
     And I submit the form
     Then I should see a success message
 
@@ -44,4 +44,11 @@ Feature: Admin - Category Management UI
     When I navigate to the categories page
     And I click Add Category
     And I submit the form without a name
+    Then I should see a validation error
+
+  Scenario: Admin cannot add a category with a name shorter than 3 characters
+    When I navigate to the categories page
+    And I click Add Category
+    And I fill in the category name with "AB"
+    And I submit the form
     Then I should see a validation error

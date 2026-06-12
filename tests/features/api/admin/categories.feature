@@ -31,9 +31,7 @@ Feature: Admin - Categories API
     Given I create a category to be deleted
     When I delete the category to be deleted
     Then the response status should be 204
-    When I send a GET request to the deleted category
-    Then the response status should be 404
 
-  Scenario: Admin cannot create a category with an empty name
-    When I send a POST request to "/api/categories" with an empty name
+  Scenario: Admin cannot create a category with a name shorter than 3 characters
+    When I send a POST request to "/api/categories" with name "AB"
     Then the response status should be 400

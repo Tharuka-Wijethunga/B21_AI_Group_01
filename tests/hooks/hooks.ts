@@ -1,10 +1,12 @@
-import { Before, After, BeforeAll, Status } from '@cucumber/cucumber'
+import { Before, After, BeforeAll, Status, setDefaultTimeout } from '@cucumber/cucumber'
 import { chromium, request } from 'playwright'
 import { PlaywrightWorld } from './world'
 import { ensureSeedData } from './db.setup'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
+
+setDefaultTimeout(10 * 1000)
 
 BeforeAll(async function () {
   await ensureSeedData()

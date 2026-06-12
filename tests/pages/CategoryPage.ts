@@ -26,7 +26,7 @@ export class CategoryPage {
   }
 
   async navigate(): Promise<void> {
-    await this.page.goto('/ui/categories')
+    await this.page.goto('/ui/categories', { waitUntil: 'domcontentloaded' })
   }
 
   async clickAddCategory(): Promise<void> {
