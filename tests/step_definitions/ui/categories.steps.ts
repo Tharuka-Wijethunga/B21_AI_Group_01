@@ -49,7 +49,7 @@ When('I submit the form without a name', async function (this: PlaywrightWorld) 
 
 Then('I should see the new category in the list', async function (this: PlaywrightWorld) {
   const categoryPage = new CategoryPage(this.page)
-  await categoryPage.expectListContains(testdata.newCategory.name)
+  await categoryPage.expectListContains(testdata.newCategoryUi.name)
 })
 
 When('I click edit for the category {string}', async function (this: PlaywrightWorld, name: string) {
@@ -72,14 +72,22 @@ Then('the Add Category button should not be visible', async function (this: Play
   expect(count).toBe(0)
 })
 
-Then('the edit buttons should not be visible', async function (this: PlaywrightWorld) {
-  const count = await this.page.locator('[data-cy=edit-btn], a[title="Edit"]').count()
-  expect(count).toBe(0)
+Then('the edit buttons should be disabled', async function (this: PlaywrightWorld) {
+  const editLinks = this.page.locator('[data-cy=edit-btn], a[title="Edit"]')
+  const count = await editLinks.count()
+  expect(count).toBeGreaterThan(0)
+  for (let i = 0; i < count; i++) {
+    await expect(editLinks.nth(i)).toBeDisabled()
+  }
 })
 
-Then('the delete buttons should not be visible', async function (this: PlaywrightWorld) {
-  const count = await this.page.locator('[data-cy=delete-btn], button[title="Delete"]').count()
-  expect(count).toBe(0)
+Then('the delete buttons should be disabled', async function (this: PlaywrightWorld) {
+  const deleteButtons = this.page.locator('[data-cy=delete-btn], button[title="Delete"]')
+  const count = await deleteButtons.count()
+  expect(count).toBeGreaterThan(0)
+  for (let i = 0; i < count; i++) {
+    await expect(deleteButtons.nth(i)).toBeDisabled()
+  }
 })
 
 Then('I should see a validation error', async function (this: PlaywrightWorld) {

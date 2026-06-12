@@ -16,6 +16,8 @@ export class PlaywrightWorld extends World {
   token: string = ''
   lastSearchTerm: string = ''
   selectedParentLabel: string = ''
+  lastCreatedCategoryId: number = 0
+  tempCategoryId: number = 0
 
   constructor(options: IWorldOptions) {
     super(options)

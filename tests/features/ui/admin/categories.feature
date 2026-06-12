@@ -14,6 +14,8 @@ Feature: Admin - Category Management UI
     And I fill in the category name with fixture data "newCategoryUi"
     And I submit the form
     Then I should see the new category in the list
+    And I click delete for the category "Mosses"
+    And I confirm the deletion
 
   Scenario: Admin can add a sub-category under a parent
     When I navigate to the categories page

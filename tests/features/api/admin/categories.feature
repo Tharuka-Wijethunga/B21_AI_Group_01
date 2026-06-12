@@ -14,6 +14,7 @@ Feature: Admin - Categories API
     When I send a POST request to "/api/categories" with body from fixture "newCategory"
     Then the response status should be 201
     And the response body should contain the created category name
+    And I delete the category that was just created
 
   @extra
   Scenario: Admin can retrieve a category by ID
@@ -27,9 +28,10 @@ Feature: Admin - Categories API
     And the response body should contain the updated category name
 
   Scenario: Admin can delete a category
-    When I send a DELETE request to "/api/categories/1"
+    Given I create a category to be deleted
+    When I delete the category to be deleted
     Then the response status should be 204
-    When I send a GET request to "/api/categories/1"
+    When I send a GET request to the deleted category
     Then the response status should be 404
 
   Scenario: Admin cannot create a category with an empty name

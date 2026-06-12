@@ -17,13 +17,13 @@ Feature: User - Category Management UI
     When I navigate to the categories page
     Then the Add Category button should not be visible
 
-  Scenario: User does not see Edit button on categories
+  Scenario: Edit button is disabled for normal users
     When I navigate to the categories page
-    Then the edit buttons should not be visible
+    Then the edit buttons should be disabled
 
-  Scenario: User does not see Delete button on categories
+  Scenario: Delete button is disabled for normal users
     When I navigate to the categories page
-    Then the delete buttons should not be visible
+    Then the delete buttons should be disabled
 
   Scenario: User can search categories by name
     When I navigate to the categories page
