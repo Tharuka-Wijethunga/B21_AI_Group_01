@@ -33,9 +33,11 @@ Then('I should see the total sales count', async function (this: PlaywrightWorld
 })
 
 When('I click the categories navigation link', async function (this: PlaywrightWorld) {
-  await this.page.locator('a[href*="categories"], [data-cy=nav-categories]').click()
+  // target the sidebar nav link specifically (the page also has a "Manage
+  // Categories" button linking to /ui/categories, which made this ambiguous)
+  await this.page.locator('a.nav-link[href*="categories"], [data-cy=nav-categories]').click()
 })
 
 When('I click the plants navigation link', async function (this: PlaywrightWorld) {
-  await this.page.locator('a[href*="plants"], [data-cy=nav-plants]').click()
+  await this.page.locator('a.nav-link[href*="plants"], [data-cy=nav-plants]').click()
 })
