@@ -1,0 +1,114 @@
+name: Tests and Allure Report
+
+# Runs the Cucumber suite (UI + API) against the app and MySQL, then publishes
+# the Allure report to GitHub Pages.
+
+on:
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+
+# Allow this workflow to publish to GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment at a time.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # A throwaway MySQL the app and the tests both use.
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: qa_training
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Create .env
+        run: |
+          cat > .env <<'EOF'
+          UI_BASE_URL=http://localhost:8080
+          API_BASE_URL=http://localhost:8080
+          ADMIN_USER=admin
+          ADMIN_PASS=admin123
+          TEST_USER=testuser
+          TEST_PASS=test123
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_USER=root
+          DB_PASSWORD=root
+          DB_NAME=qa_training
+          EOF
+
+      - name: Start the QA Training App
+        run: |
+          java -jar "QA Training App/qa-training-app.jar" \
+            --spring.datasource.password=root > app.log 2>&1 &
+          echo "Waiting for the app on :8080 ..."
+          for i in $(seq 1 60); do
+            if curl -sf -o /dev/null http://localhost:8080/ui/login; then
+              echo "App is up."; exit 0
+            fi
+            sleep 3
+          done
+          echo "App did not start in time. Logs:"; cat app.log; exit 1
+
+      - name: Run tests
+        # Keep going even if some tests fail, so the report still publishes.
+        continue-on-error: true
+        run: npx cucumber-js "tests/features/**/*.feature"
+
+      - name: Generate Allure report
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
