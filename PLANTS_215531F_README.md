@@ -69,6 +69,12 @@ Also, the Allure report only gets written if the allure reporter is the only for
 so my config uses allure on its own.
 
 A couple of things in the app don't match the test case doc exactly, so my tests follow
-what the app actually does: GET /api/plants/{id} returns a flat `categoryId` (the list
-returns a nested `category`), and PUT /api/plants/{id} wants `categoryId` too (sending a
-nested category gives a 400).
+what the app actually does:
+
+- GET /api/plants/{id} returns a flat `categoryId`, while the list (GET /api/plants)
+  returns a nested `category` object. The test accepts either.
+- PUT /api/plants/{id} rejects a nested `category` object with a 400 ("Plants can only
+  belong to sub-categories"). Sending `categoryId` returns 200 and updates the name,
+  price and quantity, but the category itself is not actually changed - this is the bug
+  I logged separately (API_BUG_PLANT_001). My update test only checks name, price and
+  quantity, which is what the test case doc asks for.
